@@ -3,25 +3,26 @@ const db = require('../models')
 const { Stage } = db
 
 //find all Stages
-stages.get('/', async (req, res) => {
-    try {
-        const foundStages = await Stage.findAll({
-            order: [ ['stage_name', 'ASC']],
-            // where: {
-            //     name: { [Op.like]: `${req.query.name ? req.query.name : ''}%`}
-            // }
-            })
-        res.status(200).json(foundStages)
-    } catch (error) {
-        res.status(500).json(error)
-    }
-})
+stages.get("/", async (req, res) => {
+  try {
+    const foundStages = await Stage.findAll({
+      where: {
+        stage_name: {
+          [Op.like]: `%${req.query.stage_name ? req.query.stage_name : ""}%`,
+        },
+      },
+    });
+    res.status(200).json(foundStages);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 //FIND A SPECIFIC Stages
 stages.get('/id', async (req, res) => {
     try {
         const foundStage = await Stage.findOne({
-            where: {stage_id: req.params.id}
+            where: { stage_id: req.params.id }
         })
         res.status(200).json(foundStage)
     } catch (error) {

@@ -1,7 +1,5 @@
-'use strict'
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class MeetGreet extends Model {
     /**
@@ -13,43 +11,46 @@ module.exports = (sequelize, DataTypes) => {
       // band
       MeetGreet.belongsTo(Band, {
         foreignKey: "band_id",
-        as: "band"
-      })
+        as: "band",
+      });
 
       // event
       MeetGreet.belongsTo(Event, {
         foreignKey: "event_id",
-        as: "event"
-      })
+        as: "event",
+      });
     }
   }
-  MeetGreet.init({
-    meet_greet_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+  MeetGreet.init(
+    {
+      meet_greet_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      event_id: {
+        type: DataTypes.SMALLINT,
+        allowNull: false,
+      },
+      band_id: {
+        type: DataTypes.SMALLINT,
+        allowNull: false,
+      },
+      meet_start_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      meet_end_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
-    event_id: {
-      type: DataTypes.SMALLINT,
-      allowNull: false
-    },
-    band_id: {
-      type: DataTypes.SMALLINT,
-      allowNull: false
-    },
-    meet_start_time: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    meet_end_time: {
-      type: DataTypes.DATE,
-      allowNull: false
+    {
+      sequelize,
+      modelName: "MeetGreet",
+      tableName: "meet_greets",
+      timestamps: false,
     }
-  }, {
-    sequelize,
-    modelName: 'MeetGreet',
-    tableName: 'meet_greets',
-    timestamps: false
-  })
-  return MeetGreet
-}
+  );
+  return MeetGreet;
+};
